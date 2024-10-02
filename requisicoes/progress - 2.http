@@ -1,0 +1,56 @@
+REQUEST:
+
+POST /api/v3/progress HTTP/2 
+Host: ii.ymcdn.org
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0
+Accept: */*
+Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+Referer: https://pt1.greenconvert.net/
+Content-Type: multipart/form-data; boundary=---------------------------3855561575317018898171890485
+Content-Length: 307
+Origin: https://pt1.greenconvert.net
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: cross-site
+Te: trailers
+
+-----------------------------3855561575317018898171890485
+Content-Disposition: form-data; name="id"
+
+556e849ce8ae4447932c20813dfe5a3a
+-----------------------------3855561575317018898171890485
+Content-Disposition: form-data; name="s"
+
+100
+-----------------------------3855561575317018898171890485--
+
+
+RESPONSE:
+
+HTTP/2 200 OK
+Date: Tue, 01 Oct 2024 21:34:03 GMT
+Content-Type: application/json; charset=UTF-8
+Vary: Accept-Encoding
+X-Powered-By: PHP/7.4.33
+Set-Cookie: PHPSESSID=9dnn1ptnbgu4qpqkmjdd6nnfhr; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Security-Policy: upgrade-insecure-requests
+Access-Control-Allow-Origin: https://pt1.greenconvert.net
+Strict-Transport-Security: max-age=31536000
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Cf-Cache-Status: DYNAMIC
+Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=LM4X%2FqYr9%2BA4jqqcstRjUH6aRxSNNTyPYUNtSIfHHgq1urCXCtmgNbuZMDnQ307nqpP%2BLSVmZH2Bo8Y65Jcr7R5c4zo5JRsegX%2BIptsk%2FR5gbI%2BwQbliqlJxI5UtIdw%3D"}],"group":"cf-nel","max_age":604800}
+Nel: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+Server: cloudflare
+Cf-Ray: 8cbf9313289e030d-GRU
+
+{"status":true,"videoDetail":{"title":"Colossenses E Suas Linhas de Amor - Vers\u00e3o Metal (Fhop Music)","duration":"00:04:55","thumbnailUrl":"https:\/\/i.ytimg.com\/vi\/uYYgJ9gRpVs\/0.jpg","formats":{"videos":[{"resolution":"1080p","size":"55.78MB","ext":"mp4","itag":137,"isDirectDownload":true},{"resolution":"720p","size":"27.43MB","ext":"mp4","itag":136,"isDirectDownload":true},{"resolution":"480p","size":"14.38MB","ext":"mp4","itag":135,"isDirectDownload":true},{"resolution":"360p","size":"7.8MB","ext":"mp4","itag":134,"isDirectDownload":true},{"resolution":"240p","size":"4.05MB","ext":"mp4","itag":133,"isDirectDownload":true},{"resolution":"144p","size":"1.88MB","ext":"mp4","itag":160,"isDirectDownload":true}],"audios":[{"bitrate":"160k","size":"4.58MB","raw_size":4805351,"ext":"webm","itag":251,"isDirectDownload":true},{"bitrate":"128k","size":"4.56MB","raw_size":4778962,"ext":"m4a","itag":140,"isDirectDownload":true},{"bitrate":"64k","size":"2.31MB","raw_size":2423806,"ext":"webm","itag":250,"isDirectDownload":true},{"bitrate":"48k","size":"1.75MB","raw_size":1833448,"ext":"webm","itag":249,"isDirectDownload":true}],"sounds":{"320k":{"bitrate":"320k","size":"11.25MB","raw_size":11800000,"ext":"mp3","itag":320,"isDirectDownload":false},"256k":{"bitrate":"256k","size":"9MB","raw_size":9440000,"ext":"mp3","itag":256,"isDirectDownload":false},"192k":{"bitrate":"192k","size":"6.75MB","raw_size":7080000,"ext":"mp3","itag":192,"isDirectDownload":false},"128k":{"bitrate":"128k","size":"4.5MB","raw_size":4720000,"ext":"mp3","itag":128,"isDirectDownload":false},"64k":{"bitrate":"64k","size":"2.25MB","raw_size":2360000,"ext":"mp3","itag":64,"isDirectDownload":false}}}}}
+
+
+
+RECEBENDO ERRO:
+{"status":false,"error":{"eid":14,"code":"3 - 2"}}

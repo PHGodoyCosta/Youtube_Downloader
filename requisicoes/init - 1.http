@@ -1,0 +1,46 @@
+REQUEST
+
+POST /api/v3/init HTTP/2
+Host: ii.ymcdn.org
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0
+Accept: */*
+Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate, br
+Referer: https://pt1.greenconvert.net/
+Content-Type: multipart/form-data; boundary=---------------------------849983406211932203985283908
+Content-Length: 176
+Origin: https://pt1.greenconvert.net
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: cross-site
+Te: trailers
+
+-----------------------------849983406211932203985283908
+Content-Disposition: form-data; name="id"
+
+uYYgJ9gRpVs
+-----------------------------849983406211932203985283908--
+
+RESPONSE:
+
+HTTP/2 200 OK
+Date: Tue, 01 Oct 2024 21:41:00 GMT
+Content-Type: application/json; charset=UTF-8
+Vary: Accept-Encoding
+X-Powered-By: PHP/7.4.33
+Set-Cookie: PHPSESSID=gsc688ckagskrkhtprornd8rcg; path=/
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-Security-Policy: upgrade-insecure-requests
+Access-Control-Allow-Origin: https://pt1.greenconvert.net
+Strict-Transport-Security: max-age=31536000
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Cf-Cache-Status: DYNAMIC
+Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=5hyIyyq580vvBgCJP6NY8XA922z4hNzWrslHENd5aASn0TT70Okht%2BmSRWkaCrYLf2rha0hWXrablwesuGN9CCJ2TyKCTFQ0%2Fxa6s9ETiMuNuq68q%2B4Y6tpP8CRYthM%3D"}],"group":"cf-nel","max_age":604800}
+Nel: {"success_fraction":0,"report_to":"cf-nel","max_age":604800}
+Server: cloudflare
+Cf-Ray: 8cbf9d3fdde01abc-GRU
+
+{"status":true,"hash":"eae3bbb9197ba65a3d2bb0d4b0f21733","error":0}
