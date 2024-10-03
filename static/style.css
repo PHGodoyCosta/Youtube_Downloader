@@ -1,0 +1,16 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+}
+
+.main_input {
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px;
+    width: 300px;
+}

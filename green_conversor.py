@@ -90,9 +90,6 @@ Content-Disposition: form-data; name="s"
                     sleep(3)
                     if self.progress(hash):
                         break
-                    
-                
-                
                 
         raise Exception("Erro na requisição inicial")
         
