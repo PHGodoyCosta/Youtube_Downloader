@@ -6,15 +6,98 @@
     <title>Conversor Mg Multicoisas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loader.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1 class="mt-3 mb-3">Conversor de músicas</h1>
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <input type="text" class="main_input" placeholder="Converta sua música">
-        </div>
+    <div class="d-flex justify-content-center mt-4 mb-3">
+        <img src="{{ url_for('static', filename='images/mg.png') }}" alt="Imagem da Mg Multicoisas" id="mg-multicoisas">
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!--<h1 class="mt-3 mb-4">Conversor da Mg Multicoisas</h1>-->
+    <div class="container">
+        <div class="d-flex justify-content-center mb-3" style="gap: 10px">
+            <input type="text" class="main_input" placeholder="Converta sua música">
+            <button type="button" class="btn btn-success">Converter</button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-3" style="gap: 30px">
+            <div class="d-flex justify-content-center" style="gap: 5px">
+                <button type="button" class="btn btn-light" id="mp4">mp4</button>
+                <button type="button" class="btn btn-primary" id="mp3">mp3</button>
+            </div>
+            <div class="d-flex justify-content-center"></div>
+                <button type="button" class="btn btn-primary" id="musica">Música/Vídeo</button>
+                <button type="button" class="btn btn-light" id="playlist">Playlist</button>
+            </div>
+        </div>
+        <main class="row justify-content-center">
+            <div class="col d-flex justify-content-center mt-5" style="gap: 50px">
+                <img src="https://i.pinimg.com/564x/c7/5b/50/c75b501277d271ee8b225d90b8c17cab.jpg" alt="Imagem da música que está sendo baixada" class="poster">
+                <div>
+                    <h2>Música topissima sendo tocada pelo careca Frei Gilson</h2>
+                    <div class="loader">
+                        <div class="loading-text">
+                            Carregando<span class="dot">.</span><span class="dot">.</span
+                            ><span class="dot">.</span>
+                        </div>
+                        <div class="loading-bar-background">
+                            <div class="loading-bar">
+                                <div class="white-bars-container">
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                    <div class="white-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<h2>Fila de conversão</h2>-->
+            <div class="row mt-4" style="width: 80%;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Duração</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Música massa do Frei Gilson</td>
+                            <td>02:30</td>
+                            <td style="gap: 5px" class="d-flex align-items-center">
+                                <span>Baixando</span>
+                                <img src="{{ url_for('static', filename='images/pacman.gif') }}" alt="Loading do pacman" class="loading">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ninguem te ama como eu</td>
+                            <td>05:40</td>
+                            <td style="gap: 5px" class="d-flex align-items-center">
+                                <span>Concluída</span>
+                                <img src="{{ url_for('static', filename='images/icons8-ok-32.png') }}" alt="Icone de correto" class="loading">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Quem é essa que avança como aurora</td>
+                            <td>04:30</td>
+                            <td style="gap: 5px" class="d-flex align-items-center">
+                                <span>Concluída</span>
+                                <img src="{{ url_for('static', filename='images/icons8-ok-32.png') }}" alt="Icone de correto" class="loading">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

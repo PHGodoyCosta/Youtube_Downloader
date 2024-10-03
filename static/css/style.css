@@ -1,0 +1,43 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8em;
+}
+
+.main_input {
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px;
+    width: 300px;
+}
+
+.separator {
+    width: 10px;
+    height: 40px;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.poster {
+    max-width: 500px;
+    max-height: 500px;
+    border-radius: 10px;
+}
+
+.loading {
+    width: 30px;
+    height: 30px;
+}
+
+.mg-multicoisas {
+    width: 400px;
+    border-radius: 10px;
+}
