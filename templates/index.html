@@ -17,7 +17,7 @@
     <div class="container">
         <div class="d-flex justify-content-center mb-3" style="gap: 10px">
             <input type="text" class="main_input" placeholder="Converta sua música">
-            <button type="button" class="btn btn-success">Converter</button>
+            <button type="button" class="btn btn-success" id="converter" >Converter</button>
         </div>
         <div class="d-flex justify-content-center align-items-center mt-3" style="gap: 30px">
             <div class="d-flex justify-content-center" style="gap: 5px">
@@ -30,28 +30,31 @@
             </div>
         </div>
         <main class="row justify-content-center">
-            <div class="col d-flex justify-content-center mt-5" style="gap: 50px">
-                <img src="https://i.pinimg.com/564x/c7/5b/50/c75b501277d271ee8b225d90b8c17cab.jpg" alt="Imagem da música que está sendo baixada" class="poster">
-                <div>
-                    <h2>Música topissima sendo tocada pelo careca Frei Gilson</h2>
-                    <div class="loader">
-                        <div class="loading-text">
-                            Carregando<span class="dot">.</span><span class="dot">.</span
-                            ><span class="dot">.</span>
-                        </div>
-                        <div class="loading-bar-background">
-                            <div class="loading-bar">
-                                <div class="white-bars-container">
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
-                                    <div class="white-bar"></div>
+            <div id="center-area">
+                <div class="col d-flex justify-content-center mt-5" style="gap: 50px">
+                    <img src="https://i.pinimg.com/564x/c7/5b/50/c75b501277d271ee8b225d90b8c17cab.jpg" alt="Imagem da música que está sendo baixada" class="poster">
+                    <div>
+                        <h2>Música topissima sendo tocada pelo careca Frei Gilson</h2>
+                        <p>02:30 | mp3 | 63k</p>
+                        <div class="loader">
+                            <div class="loading-text">
+                                Carregando<span class="dot">.</span><span class="dot">.</span
+                                ><span class="dot">.</span>
+                            </div>
+                            <div class="loading-bar-background">
+                                <div class="loading-bar">
+                                    <div class="white-bars-container">
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                        <div class="white-bar"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -64,13 +67,15 @@
                     <thead>
                         <tr>
                             <th scope="col">Nome</th>
+                            <th scope="col">Tipo</th>
                             <th scope="col">Duração</th>
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="queue">
                         <tr>
                             <td>Música massa do Frei Gilson</td>
+                            <td>mp3</td>
                             <td>02:30</td>
                             <td style="gap: 5px" class="d-flex align-items-center">
                                 <span>Baixando</span>
@@ -79,6 +84,7 @@
                         </tr>
                         <tr>
                             <td>Ninguem te ama como eu</td>
+                            <td>mp4</td>
                             <td>05:40</td>
                             <td style="gap: 5px" class="d-flex align-items-center">
                                 <span>Concluída</span>
@@ -87,6 +93,7 @@
                         </tr>
                         <tr>
                             <td>Quem é essa que avança como aurora</td>
+                            <td>mp3</td>
                             <td>04:30</td>
                             <td style="gap: 5px" class="d-flex align-items-center">
                                 <span>Concluída</span>

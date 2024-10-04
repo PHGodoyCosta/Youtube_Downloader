@@ -80,7 +80,8 @@ Content-Disposition: form-data; name="s"
                 
                 audio_formats = response["videoDetail"]["formats"]["sounds"][0]
                 
-                return audio_formats["bitrate"]
+                #return audio_formats["bitrate"]
+                return video_data
             elif firstFalse:
                 return None
             

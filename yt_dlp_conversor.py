@@ -23,6 +23,9 @@ class YoutubeDownloader:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
     
+    def download_mp4(self, url):
+        pass
+    
     def setting_the_path(self, path):
         self.path = path
         os.chdir(self.path)
@@ -62,10 +65,38 @@ class YoutubeDownloader:
             #entries = info_dict['entries']
             video_links = [entry['url'] for entry in info_dict['entries']]
             return video_links
+    
+    def getting_informations(self, url):
+        #POSTER -> https://i.ytimg.com/vi/YOtlQlEtygs/0.jpg
+        ydl_opts = {
+            'format': 'best',  # Não baixa, apenas coleta informações
+            'skip_download': True,
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            # Extrai as informações do vídeo
+            info = ydl.extract_info(url, download=False)
+            with open("test.json", "w+") as f:
+                f.write(str(info))
+            print(info['title'])
+            print(info['duration'])
+
+        # Pegando algumas informações específicas
+        '''video_title = info.get('title', 'N/A')
+        video_duration = info.get('duration', 'N/A') 
+        video_thumbnail = info.get('thumbnail', 'N/A')
+
+        return {
+            "title": video_title,
+            "duration": video_duration,  # Duração em segundos
+            "thumbnail": video_thumbnail,  # Link para o thumbnail
+        }'''
                 
 if __name__ == "__main__":
     starter = YoutubeDownloader(path=".")
     #links = starter.getting_links("https://www.youtube.com/watch?v=CPFYqt7JOU4") #https://www.youtube.com/playlist?list=PLSeKWDqO5F9dvynyjFEVyEIR3MoPZEEiw
-    starter.download_sound("https://www.youtube.com/watch?v=UILtPpRZ_G0")
+    #starter.download_sound("https://www.youtube.com/watch?v=UILtPpRZ_G0")
+    informations = starter.getting_informations("https://www.youtube.com/watch?v=lXSZn71C9zU")
+    print(informations)
     
     #https://www.youtube.com/watch?v=tdL58UvcwaA&list=PLSeKWDqO5F9dvynyjFEVyEIR3MoPZEEiw
