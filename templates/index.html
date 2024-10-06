@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="d-flex justify-content-center mt-4 mb-3">
-        <img src="{{ url_for('static', filename='images/mg.png') }}" alt="Imagem da Mg Multicoisas" id="mg-multicoisas">
+        <!-- <img src="{{ url_for('static', filename='images/mg.png') }}" alt="Imagem da Mg Multicoisas" id="mg-multicoisas"> -->
     </div>
     <!--<h1 class="mt-3 mb-4">Conversor da Mg Multicoisas</h1>-->
     <div class="container">
@@ -31,7 +31,11 @@
         </div>
         <main class="row justify-content-center">
             <div id="center-area">
-                <div class="col d-flex justify-content-center mt-5" style="gap: 50px">
+                <!-- <div class="col d-flex flex-column justify-content-center align-items-center mt-5">
+                    <h2>Carregando Playlist</h2>
+                    <img src="{{ url_for('static', filename='images/loading.gif') }}" alt="Loading do pacman">
+                </div> -->
+                <!--<div class="col d-flex justify-content-center mt-5" style="gap: 50px">
                     <img src="https://i.pinimg.com/564x/c7/5b/50/c75b501277d271ee8b225d90b8c17cab.jpg" alt="Imagem da música que está sendo baixada" class="poster">
                     <div>
                         <h2>Música topissima sendo tocada pelo careca Frei Gilson</h2>
@@ -59,10 +63,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
             <!--<h2>Fila de conversão</h2>-->
-            <div class="row mt-4" style="width: 80%;">
+            <div class="row mt-5" style="width: 80%;">
+                <div id="playlist-progress-main">
+                    <p id="playlist-progress-title">Baixando 5 de 20</p>
+                    <div class="playlist-progress mb-3">
+                        <div id="playlist-loader-progress"></div>
+                    </div>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>

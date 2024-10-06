@@ -27,8 +27,8 @@ h2 {
 }
 
 .poster {
-    max-width: 300px;
-    max-height: 300px;
+    width: 200px;
+    height: 200px;
     border-radius: 10px;
 }
 
@@ -40,4 +40,29 @@ h2 {
 .mg-multicoisas {
     width: 400px;
     border-radius: 10px;
+}
+
+.playlist-progress {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(177, 177, 177, 0.678);
+    border-radius: 5px;
+    padding: 0 !important;
+}
+
+#playlist-progress-main {
+    display: none;
+}
+
+#playlist-loader-progress {
+    width: 0;
+    height: 10px;
+    background-color: #198754;
+    border-radius: 5px;
+    padding: 0 !important;
+}
+
+#center-area {
+    display: flex;
+    justify-content: center;
 }

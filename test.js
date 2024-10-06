@@ -1,17 +1,11 @@
 async function sendVideoId(videoId) {
-    const url = "http://127.0.0.1:3000/informations";  // Rota do seu servidor Flask
+    const url = "http://127.0.0.1:3000/queue";  // Rota do seu servidor Flask
     const data = {
         id: videoId
     };
     
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data) // Envia o ID em formato JSON
-        });
+        const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error('Erro ao fazer a requisição: ' + response.statusText);
@@ -24,5 +18,20 @@ async function sendVideoId(videoId) {
     }
 }
 
+async function getQueue() {
+    try {
+        let response = await fetch("http://127.0.0.1:3000/queue")
+        return await response.json()
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function run() {
+    let response = await getQueue()
+    console.log(response)
+}
+
+run()
 // Exemplo de uso
-sendVideoId("lXSZn71C9zU");
+//sendVideoId("lXSZn71C9zU");

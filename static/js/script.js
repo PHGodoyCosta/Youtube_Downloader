@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", e => {
     const main_input = document.querySelector(".main_input")
     const converter = document.getElementById("converter")
     const centerArea = document.getElementById("center-area")
+    const playlistProgress = document.getElementById("playlist-progress-main")
+    const playlistProgressTitle = document.getElementById("playlist-progress-title")
+    const playlistLoaderProgress = document.getElementById("playlist-loader-progress")
     const queue = document.getElementById("queue")
 
     async function getVideoInformations(videoId) {
@@ -40,6 +43,23 @@ document.addEventListener("DOMContentLoaded", e => {
         }
     }
 
+    function checkYoutubeURL(link, type=converterOptions.typeUnity) {
+        try {
+            let url = new URL(link)
+            let param = url.searchParams.get("v")
+            if (!param || url.href.indexOf("youtube.com") == -1) {
+                dispair_erro(2)
+                return false
+            }
+
+            return true
+        } catch (error) {
+            console.error(error)
+            dispair_erro(0)
+            return false
+        }
+    }
+
     function getVideoIdByURL(link) {
         try {
             let url = new URL(link)
@@ -53,8 +73,7 @@ document.addEventListener("DOMContentLoaded", e => {
 
     }
 
-    function dispair_erro(code=0) {
-        alert("disparando erro")
+    function dispair_erro(code=0, message="") {
         let textError = ""
         let poster = "error-generic"
         switch(code) {
@@ -63,6 +82,15 @@ document.addEventListener("DOMContentLoaded", e => {
                 break
             case 1:
                 textError = "Parece que esse erro é mais avançado, você vai ter que chamar seu Godoyzinho querido para resolver 😁"
+                poster = "error-1"
+                break
+            case 2:
+                textError = "Coloca o link certo! mds... 😑"
+                poster = "error-2"
+                break
+            case 3:
+                textError = `Tira um print e mostra para o seu Godoyzinho favorito:<br><br>${message}`
+                poster = "error-3"
                 break
         }
 
@@ -72,17 +100,67 @@ document.addEventListener("DOMContentLoaded", e => {
     }
 
     converter.addEventListener("click", async(e) => {
-        alert(1)
+        //alert(1)
         let text = main_input.value
         converterOptions.url = text
-        let videoId = getVideoIdByURL(text)
-        if (videoId) {
-            let informations = await getVideoInformations(videoId)
+        if (converterOptions.typeUnity == "musica") {
+            createLoadingPlaylistElement(message="Carregando vídeo")
+            if (checkYoutubeURL(text)) {
+                let videoId = getVideoIdByURL(text)
+                if (videoId) {
 
-            console.log(informations)
+                    let informations = await getVideoInformations(videoId)
 
-            createMusicLoadingElement(informations.poster, informations.title, duration=informations.duration)
+                    let queueItem = await appendQueue(informations.title, converterOptions.type, duration=informations.duration, "baixando")
+
+                    console.log(queueItem)
+
+                    createMusicLoadingElement(informations.poster, informations.title, duration=informations.duration)
+                    
+                    //alert(text)
+
+                    let c = await converting(text)
+                    c = await c.json()
+
+                    //alert(queueItem)
+
+                    if (c.status == "ok") {
+                        await changeQueueStatus(queueItem.hash, "concluida")
+                        centerArea.replaceChildren()
+
+                    } else {
+                        await changeQueueStatus(queueItem.hash, "error")
+                        dispair_erro(3, message=`${c.error}<br>Link: ${text}`)
+                    }
+                }
+            }
+            
+        } else if (converterOptions.typeUnity == "playlist") {
+            createLoadingPlaylistElement()
+            let informations = await getPlaylistInformations(text)
+            informations = await informations.json()
+            createPlaylistProgress(informations.playlist_count)
+            
+            for (let i=0;i<informations.playlist_count;i++) {
+                let musica = informations.musicas[i]
+
+                //createMusicLoadingElement(musica.poster, musica.title, duration=musica.duration)
+
+                alert(musica.url)
+                // let c = await converting(musica.url)
+                // c = await c.json()
+
+                if (c.status == "ok") {
+                    centerArea.replaceChildren()
+                    atualizandoPlaylistProgress(i + 1, informations.playlist_count)
+
+                } else {
+                    //Para o caso de erros na conversão retornados pelo servidor
+                }
+            }
+
         }
+        
     })
 
     mp4.addEventListener("click", e => {
@@ -106,7 +184,7 @@ document.addEventListener("DOMContentLoaded", e => {
         musica.classList.add("btn-primary")
         playlist.classList.remove("btn-primary")
         playlist.classList.add("btn-light")
-        converterOptions.type = "musica"
+        converterOptions.typeUnity = "musica"
     })
 
     playlist.addEventListener("click", e => {
@@ -114,7 +192,7 @@ document.addEventListener("DOMContentLoaded", e => {
         playlist.classList.add("btn-primary")
         musica.classList.remove("btn-primary")
         musica.classList.add("btn-light")
-        converterOptions.type = "musica"
+        converterOptions.typeUnity = "playlist"
     })
 
     function createMusicLoadingElement(poster, title, duration="00:00", type="mp3") {
@@ -122,6 +200,7 @@ document.addEventListener("DOMContentLoaded", e => {
         let container = document.createElement('div');
         container.className = 'col d-flex justify-content-center mt-5';
         container.style.gap = '50px';
+        container.style.maxWidth = "80%"
     
         // Criando a imagem
         let img = document.createElement('img');
@@ -186,6 +265,22 @@ document.addEventListener("DOMContentLoaded", e => {
         centerArea.appendChild(container);
     }
 
+    function createPlaylistProgress(total_musicas) {
+        playlistProgress.style.display = "block"
+        playlistProgressTitle.innerHTML = `Baixando 0 de ${total_musicas}`
+    }
+
+    function atualizandoPlaylistProgress(baixadas, total_musicas) {
+        let porcentagem = (baixadas * 100) / total_musicas
+        playlistProgressTitle.innerHTML = `Baixando ${baixadas} de ${total_musicas}`
+        playlistLoaderProgress.style.width = `${porcentagem}%`
+    }
+
+    function cancelandoPlaylistProgress() {
+        playlistProgress.style.display = "none"
+        playlistLoaderProgress.style.width = "0"
+    }
+
     function create_dispair_erro(message, poster="error-generic") {
         let container = document.createElement('div');
         container.className = 'col d-flex justify-content-center mt-5';
@@ -193,7 +288,7 @@ document.addEventListener("DOMContentLoaded", e => {
 
         // Criando a imagem
         let img = document.createElement('img');
-        img.src = `static/images/${poster}.jpg`; // URL para a imagem de erro
+        img.src = `/static/images/${poster}.jpg`; // URL para a imagem de erro
         img.alt = 'Imagem da música que está sendo baixada';
         img.className = 'poster';
 
@@ -202,12 +297,12 @@ document.addEventListener("DOMContentLoaded", e => {
 
         // Criando o título (h2)
         let title = document.createElement('h2');
-        title.textContent = '🚨 ERRO 🚨';
+        title.textContent = '🚨 ERRO! 🚨';
 
         // Criando a mensagem de erro (p)
         let errorMessage = document.createElement('p');
         errorMessage.id = 'erro-mesagem'; // Definindo o ID
-        errorMessage.textContent = message;
+        errorMessage.innerHTML = message;
 
         // Montando os elementos
         textDiv.appendChild(title);
@@ -218,8 +313,31 @@ document.addEventListener("DOMContentLoaded", e => {
         centerArea.replaceChildren()
         centerArea.appendChild(container);
     }
+
+    function createLoadingPlaylistElement(message='Carregando Playlist') {
+        // Criando a div principal
+        const container = document.createElement('div');
+        container.className = 'col d-flex flex-column justify-content-center align-items-center mt-5';
+    
+        // Criando o título (h2)
+        const title = document.createElement('h2');
+        title.textContent = message;
+    
+        // Criando a imagem de loading
+        const img = document.createElement('img');
+        img.src = '/static/images/loading.gif';
+        img.alt = 'Loading normal para carregamento da playlist';
+    
+        // Montando os elementos
+        container.appendChild(title);
+        container.appendChild(img);
+    
+        centerArea.replaceChildren()
+        centerArea.appendChild(container);
+    }
     
     function organizingTheQueue(new_queue) {
+        //alert(new_queue)
         queue.replaceChildren()
         for (let i=0;i<new_queue.length;i++) {
             let actual = new_queue[i]
@@ -241,14 +359,18 @@ document.addEventListener("DOMContentLoaded", e => {
 
             let imgStatus = document.createElement("img")
             imgStatus.className = "loading"
-            //alert(actual.status)
+            //alert(String(actual))
             if (actual.status == "baixando") {
                 //imgStatus.src = "{{ url_for('static', filename='images/pacman.gif') }}"
                 imgStatus.src = "/static/images/pacman.gif"
                 spanStatus.innerHTML = "Baixando"
+                //alert(spanStatus.innerHTML)
             } else if (actual.status == "concluida") {
-                imgStatus.src = "{{ url_for('static', filename='images/icons8-ok-32.png') }}"
+                imgStatus.src = "/static/images/icons8-ok-32.png"
                 spanStatus.innerHTML = "Concluída"
+            } else if (actual.status == "error") {
+                imgStatus.src = "/static/images/icon_error.png"
+                spanStatus.innerHTML = "Erro"
             }
 
             let type = document.createElement("td")
@@ -264,13 +386,114 @@ document.addEventListener("DOMContentLoaded", e => {
         }
     }
 
-    function changeQueueStatus(hash, new_status) {
+    async function changeQueueStatus(hash, new_status) {
+        try {
+            const response = await fetch("http://127.0.0.1:3000/queue/status", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",  // Definindo o cabeçalho para JSON
+                },
+                body: JSON.stringify({
+                    hash: hash,
+                    status: new_status
+                })
+            })
+            organizingTheQueue(await getQueue())
+            return await response.json();
 
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    function getQueue() {
+    async function appendQueue(nome, tipo, duracao, status) {
         try {
-            return fetch("http://127.0.0.1:3000/queue")
+            const response = await fetch("http://127.0.0.1:3000/queue/append", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",  // Definindo o cabeçalho para JSON
+                },
+                body: JSON.stringify({
+                    nome: nome,
+                    tipo: tipo,
+                    duracao: duracao,
+                    status: status ?? "baixando"
+                })
+            })
+            
+            organizingTheQueue(await getQueue())
+            return await response.json();
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function deleteQueue(hash) {
+        //alert(hash)
+        try {
+            const response = await fetch("http://127.0.0.1:3000/queue/delete", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",  // Definindo o cabeçalho para JSON
+                },
+                body: JSON.stringify({
+                    hash: hash
+                })
+            })
+
+            organizingTheQueue(await getQueue())
+            return await response.json();
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function converting(url, type=converterOptions.type, typeUnity=converterOptions.typeUnity) {
+        try {
+            const response = await fetch("http://127.0.0.1:3000/converter", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",  // Definindo o cabeçalho para JSON
+                },
+                body: JSON.stringify({
+                    type: type,
+                    url: url
+                })
+            })
+            
+            return response;
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async function getPlaylistInformations(url) {
+        try {
+            const response = await fetch("http://127.0.0.1:3000/get_playlist_informations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    url: url
+                })
+            })
+            
+            return response;
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    function getQueueHashByChildren(i=queue.children.length-1) {
+        //alert(i)
+        return queue.children[i].dataset.id
+    }
+
+    async function getQueue() {
+        try {
+            let response = await fetch("http://127.0.0.1:3000/queue")
+            return await response.json()
         } catch (error) {
             console.error(error)
         }
@@ -278,11 +501,36 @@ document.addEventListener("DOMContentLoaded", e => {
 
     window.addEventListener("load", async(e) => {
         let new_queue = await getQueue()
-        new_queue = await new_queue.text()
 
-        console.log(new_queue)
+        //console.log(new_queue)
         
-        organizingTheQueue(eval(new_queue))
+        organizingTheQueue(new_queue)
+
+        //let item = await appendQueue("Acabei de inventar", "mp4", "03:00", "baixando")
+        //console.log(item)
+        //appendQueue("Acabei de inventar2", "mp3", "03:50", "baixando")
+        //await deleteQueue(getQueueHashByChildren(0))
+        //await deleteQueue(getQueueHashByChildren())
+
+        // setTimeout(e => {
+        //     changeQueueStatus(item.hash, "concluida")
+        // }, 3000)
+
+        // setTimeout(e => {
+        //     deleteQueue(item.hash)
+        // }, 3000)
+        // createPlaylistProgress(10)
+
+        // atualizandoPlaylistProgress(6, 10)
+
+        
     })
 
+    window.addEventListener("keydown", e => {
+        if (e.key == "Enter") {
+            if (main_input.value != "") {
+                converter.click()
+            }
+        }
+    })
 })
