@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from yt_dlp_conversor import YoutubeDownloader
+from server.yt_dlp_conversor import YoutubeDownloader
 from y2meta import Y2Meta
 from uuid import uuid4 as v4
 
