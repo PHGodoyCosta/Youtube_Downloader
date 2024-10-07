@@ -76,11 +76,19 @@ class YoutubeDownloader:
     
     def convert_duration_time(self, time, type="seconds"):
         time = int(time if time != None else 0)
-        if type == "seconds":
-            min = time / 60
-            sec = time % 60
+        # if type == "seconds":
+        #     min = int(time / 60)
+        #     sec = int(time % 60)
             
-            return f"{self.format_number_time(min)}:{self.format_number_time(sec)}"
+        #     return f"{min}:{self.format_number_time(sec)}"
+        hours, remainder = divmod(time, 3600)
+    
+        # Calcula o número de minutos e o restante de segundos
+        minutes, seconds = divmod(remainder, 60)
+        
+        if hours:
+            return f"{hours}:{minutes}:{self.format_number_time(seconds)}"
+        return f"{minutes}:{self.format_number_time(seconds)}"
 
     
     def getting_links(self, playlist):
@@ -182,7 +190,8 @@ if __name__ == "__main__":
     #links = starter.download_playlist(playlist_link) #https://www.youtube.com/playlist?list=PLSeKWDqO5F9dvynyjFEVyEIR3MoPZEEiw
     #starter.download_sound("https://www.youtube.com/watch?v=UILtPpRZ_G0")
     #informations = starter.getting_informations("https://www.youtube.com/watch?v=lXSZn71C9zU")
-    links = starter.get_video_info("https://www.youtube.com/watch?v=bP9hFz78L28")
-    print(links)
+    #links = starter.get_video_info("https://www.youtube.com/watch?v=bP9hFz78L28")
+    starter.download_mp4("https://www.youtube.com/watch?v=zf8qsgBCYT4")
+    #print(links)
     
     #https://www.youtube.com/watch?v=tdL58UvcwaA&list=PLSeKWDqO5F9dvynyjFEVyEIR3MoPZEEiw

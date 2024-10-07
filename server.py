@@ -7,15 +7,7 @@ app = Flask(__name__)
 downloader = YoutubeDownloader()
 y2meta = Y2Meta()
 
-master_queue = [#Status = baixando, concluida
-    {
-        "hash": "1234",
-        "nome": "nome Teste",
-        "tipo": "mp3",
-        "duracao": "02:30",
-        "status": "baixando"
-    }
-]
+master_queue = [] #Status = baixando, concluida
 
 @app.route("/")
 def home():
@@ -94,8 +86,14 @@ def converter():
 @app.route("/get_playlist_informations", methods=['POST'])
 def playlist_informations():
     data = request.json
-    real_link = downloader.getting_real_playlist_url(data["url"])
-    informations = downloader.getting_links(real_link)
+    try:
+        real_link = downloader.getting_real_playlist_url(data["url"])
+        informations = downloader.getting_links(real_link)
+    except Exception as erro:
+        return jsonify({
+            "status": "error",
+            "error": str(erro)
+        })
     
     return jsonify(informations)
 

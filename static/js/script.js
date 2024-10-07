@@ -100,11 +100,30 @@ document.addEventListener("DOMContentLoaded", e => {
                 textError = `Erro ao baixar a música da playlist<br><br>${message}`
                 poster = "error-5"
                 break
+            case 6:
+                textError = `Playlist incorreta! Você deve ter colocado um link de um mix ou uma playlist que não existe 🙃<br><br>${message}`
+                poster = "error-6"
         }
 
         centerArea.replaceChildren()
         create_dispair_erro(textError, poster)
 
+    }
+
+    function realConvertion() {
+        return new Promise(async(resolve, reject) => {
+            let c = await converting(text)
+            c = await c.json()
+
+            if (c.status == "ok") {
+                await changeQueueStatus(queueItem.hash, "concluida")
+                centerArea.replaceChildren()
+
+            } else {
+                await changeQueueStatus(queueItem.hash, "error")
+                dispair_erro(3, message=`${c.error}<br>Link: ${text}`)
+            }
+        })
     }
 
     converter.addEventListener("click", async(e) => {
@@ -117,6 +136,7 @@ document.addEventListener("DOMContentLoaded", e => {
                 let videoId = getVideoIdByURL(text)
                 if (videoId) {
 
+                    //let [_, informations] = await Promise.all([realConvertion(), getVideoInformations(videoId)])
                     let informations = await getVideoInformations(videoId)
                     
                     if (informations.status == "error") {
@@ -130,13 +150,9 @@ document.addEventListener("DOMContentLoaded", e => {
                     console.log(queueItem)
 
                     createMusicLoadingElement(informations.poster, informations.title, duration=informations.duration)
-                    
-                    //alert(text)
 
-                    let c = await converting(text)
+                    let c = await converting(`https://youtube.com/watch?v=${videoId}`)
                     c = await c.json()
-
-                    //alert(queueItem)
 
                     if (c.status == "ok") {
                         await changeQueueStatus(queueItem.hash, "concluida")
@@ -152,7 +168,10 @@ document.addEventListener("DOMContentLoaded", e => {
         } else if (converterOptions.typeUnity == "playlist") {
             createLoadingPlaylistElement()
             let informations = await getPlaylistInformations(text)
-            informations = await informations.json()
+            if (informations.status == "error") {
+                return dispair_erro(6, informations.error)
+
+            }
             createPlaylistProgress(informations.playlist_count)
             
             for (let i=0;i<informations.playlist_count;i++) {
@@ -161,35 +180,40 @@ document.addEventListener("DOMContentLoaded", e => {
                 //createMusicLoadingElement(musica.poster, musica.title, duration=musica.duration)
 
                 console.log(musica.title)
-                
-                setTimeout(e => {
-                    atualizandoPlaylistProgress(i + 1, informations.playlist_count)
-                }, 3000)
 
-                let informations = await getVideoInformations(videoId)
+                // let videoInformations = await getVideoInformations(musica.id)
                     
-                if (informations.status == "error") {
-                    return dispair_erro(4, informations.error)
-                }
+                // if (videoInformations.status == "error") {
+                //     dispair_erro(4, videoInformations.error)
 
-                informations = informations.info
+                // } else {
+                //     videoInformations = videoInformations.info
 
-                let queueItem = await appendQueue(informations.title, converterOptions.type, duration=informations.duration, "baixando")
+                //     let queueItem = await appendQueue(videoInformations.title, converterOptions.type, duration=videoInformations.duration, "baixando")
+
+                //     console.log(queueItem)
+
+                //     createMusicLoadingElement(videoInformations.poster, videoInformations.title, duration=videoInformations.duration)
+                // }
+
+                let queueItem = await appendQueue(musica.title, converterOptions.type, duration=musica.duration, "baixando")
 
                 console.log(queueItem)
 
-                createMusicLoadingElement(informations.poster, informations.title, duration=informations.duration)
-                
-                // let c = await converting(musica.url)
-                // c = await c.json()
+                createMusicLoadingElement(musica.poster.url, musica.title, duration=musica.duration)
 
-                /*if (c.status == "ok") {
+                let c = await converting(musica.url)
+                c = await c.json()
+
+                if (c.status == "ok") {
                     centerArea.replaceChildren()
+                    await changeQueueStatus(queueItem.hash, "concluida")
                     atualizandoPlaylistProgress(i + 1, informations.playlist_count)
 
                 } else {
-                    //Para o caso de erros na conversão retornados pelo servidor
-                }*/
+                    await changeQueueStatus(queueItem.hash, "error")
+                    dispair_erro(3, message=`${c.error}<br>Link: ${text}`)
+                }
             }
 
             cancelandoPlaylistProgress()
@@ -443,6 +467,10 @@ document.addEventListener("DOMContentLoaded", e => {
 
     async function appendQueue(nome, tipo, duracao, status) {
         try {
+            const queue = await getQueue()
+            if (queue.length + 1 > 20) {
+                await deleteQueue(queue[0].hash)
+            }
             const response = await fetch("http://127.0.0.1:3000/queue/append", {
                 method: "POST",
                 headers: {
@@ -514,7 +542,9 @@ document.addEventListener("DOMContentLoaded", e => {
                 })
             })
             
-            return response;
+            const result = await response.json(); // Recebe a resposta em JSON
+
+            return result;
         } catch (error) {
             console.error(error)
         }
