@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", e => {
                 break
             case 6:
                 textError = `Playlist incorreta! Você deve ter colocado um link de um mix ou uma playlist que não existe 🙃<br><br>${message}`
-                poster = "error-6"
+                poster = "error-generic"
         }
 
         centerArea.replaceChildren()
