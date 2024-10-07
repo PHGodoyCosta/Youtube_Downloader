@@ -23,10 +23,20 @@ def home():
 
 @app.route("/informations", methods=['POST'])
 def informations():
-    data = request.json
-    info = y2meta.get_info(data["id"])
+    try:
+        data = request.json
+        #info = y2meta.get_info(data["id"])
+        info = downloader.get_video_info(data["id"])
+    except Exception as erro:
+        return jsonify({
+            "status": "error",
+            "error": str(erro)
+        })
     
-    return jsonify(info)
+    return jsonify({
+        "status": "ok",
+        "info": info
+    })
 
 @app.route("/queue/append", methods=['POST'])
 def append_queue():

@@ -115,6 +115,31 @@ class YoutubeDownloader:
                 })
             
             return informations
+        
+    def get_video_info(self, url_id):
+        # Definir opções sem baixar o vídeo
+        ydl_opts = {
+            'quiet': True,
+            'skip_download': True,  # Não baixa o vídeo, só obtém informações
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            # Extrai as informações do vídeo
+            info_dict = ydl.extract_info(f"https://youtube.com/watch?v={url_id}", download=False)
+            
+            with open("test.json", "w+") as f:
+                f.write(str(info_dict))
+            # Pega o título do vídeo
+            video_title = info_dict.get('title', None)
+            id = info_dict.get("id", None)
+            duration = info_dict.get('duration', None)
+            
+            return {
+                "poster": f"https://i.ytimg.com/vi/{id}/0.jpg",
+                "title": video_title,
+                "duration": duration
+                
+            }
     
     def getting_informations(self, url):
         #POSTER -> https://i.ytimg.com/vi/YOtlQlEtygs/0.jpg
@@ -154,9 +179,10 @@ class YoutubeDownloader:
 if __name__ == "__main__":
     starter = YoutubeDownloader(path=".")
     playlist_link = "https://www.youtube.com/watch?v=YYTBoHIvXaY&list=PLbgMeGddi8GEKHqdrES-864mJ7EvLBVk5"
-    links = starter.download_playlist(playlist_link) #https://www.youtube.com/playlist?list=PLSeKWDqO5F9dvynyjFEVyEIR3MoPZEEiw
+    #links = starter.download_playlist(playlist_link) #https://www.youtube.com/playlist?list=PLSeKWDqO5F9dvynyjFEVyEIR3MoPZEEiw
     #starter.download_sound("https://www.youtube.com/watch?v=UILtPpRZ_G0")
     #informations = starter.getting_informations("https://www.youtube.com/watch?v=lXSZn71C9zU")
+    links = starter.get_video_info("https://www.youtube.com/watch?v=bP9hFz78L28")
     print(links)
     
     #https://www.youtube.com/watch?v=tdL58UvcwaA&list=PLSeKWDqO5F9dvynyjFEVyEIR3MoPZEEiw

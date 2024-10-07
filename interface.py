@@ -7,7 +7,7 @@ from server import app
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        app.run(host="0.0.0.0", port=3000)
+        #app.run(host="0.0.0.0", port=3000)
         self.setWindowTitle('Youtube Conversor')
         self.setGeometry(100, 100, 800, 600)
 

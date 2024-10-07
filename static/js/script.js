@@ -92,6 +92,14 @@ document.addEventListener("DOMContentLoaded", e => {
                 textError = `Tira um print e mostra para o seu Godoyzinho favorito:<br><br>${message}`
                 poster = "error-3"
                 break
+            case 4:
+                textError = `O video que você colocou ai não existe 🙃<br>Na dúvida mostra isso para o Godoyzinho:<br><br>${message}`
+                poster = "error-4"
+                break
+            case 5:
+                textError = `Erro ao baixar a música da playlist<br><br>${message}`
+                poster = "error-5"
+                break
         }
 
         centerArea.replaceChildren()
@@ -110,6 +118,12 @@ document.addEventListener("DOMContentLoaded", e => {
                 if (videoId) {
 
                     let informations = await getVideoInformations(videoId)
+                    
+                    if (informations.status == "error") {
+                        return dispair_erro(4, informations.error)
+                    }
+
+                    informations = informations.info
 
                     let queueItem = await appendQueue(informations.title, converterOptions.type, duration=informations.duration, "baixando")
 
@@ -146,18 +160,39 @@ document.addEventListener("DOMContentLoaded", e => {
 
                 //createMusicLoadingElement(musica.poster, musica.title, duration=musica.duration)
 
-                alert(musica.url)
+                console.log(musica.title)
+                
+                setTimeout(e => {
+                    atualizandoPlaylistProgress(i + 1, informations.playlist_count)
+                }, 3000)
+
+                let informations = await getVideoInformations(videoId)
+                    
+                if (informations.status == "error") {
+                    return dispair_erro(4, informations.error)
+                }
+
+                informations = informations.info
+
+                let queueItem = await appendQueue(informations.title, converterOptions.type, duration=informations.duration, "baixando")
+
+                console.log(queueItem)
+
+                createMusicLoadingElement(informations.poster, informations.title, duration=informations.duration)
+                
                 // let c = await converting(musica.url)
                 // c = await c.json()
 
-                if (c.status == "ok") {
+                /*if (c.status == "ok") {
                     centerArea.replaceChildren()
                     atualizandoPlaylistProgress(i + 1, informations.playlist_count)
 
                 } else {
                     //Para o caso de erros na conversão retornados pelo servidor
-                }
+                }*/
             }
+
+            cancelandoPlaylistProgress()
 
         }
         

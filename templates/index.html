@@ -11,14 +11,24 @@
 </head>
 <body>
     <div class="d-flex justify-content-center mt-4 mb-3">
-        <!-- <img src="{{ url_for('static', filename='images/mg.png') }}" alt="Imagem da Mg Multicoisas" id="mg-multicoisas"> -->
+        <!--<img src="{{ url_for('static', filename='images/mg.png') }}" alt="Imagem da Mg Multicoisas" id="mg-multicoisas">-->
     </div>
     <!--<h1 class="mt-3 mb-4">Conversor da Mg Multicoisas</h1>-->
     <div class="container">
         <div class="d-flex justify-content-center mb-3" style="gap: 10px">
             <input type="text" class="main_input" placeholder="Converta sua música">
+            <button id="select-directory">Escolher Diretório</button>
             <button type="button" class="btn btn-success" id="converter" >Converter</button>
         </div>
+        <p id="directory-text">Local: C://Agostinho/Downloads</p>
+        <script>
+            document.getElementById('select-directory').addEventListener('click', async () => {
+                // Solicita ao usuário para selecionar um diretório
+                const directoryHandle = await window.showDirectoryPicker();
+                const path = directoryHandle.name; // Nome do diretório
+                document.getElementById('directory-text').textContent = `Diretório selecionado: ${path}`;
+            });
+        </script>
         <div class="d-flex justify-content-center align-items-center mt-3" style="gap: 30px">
             <div class="d-flex justify-content-center" style="gap: 5px">
                 <button type="button" class="btn btn-light" id="mp4">mp4</button>
