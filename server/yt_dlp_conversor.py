@@ -145,7 +145,7 @@ class YoutubeDownloader:
             return {
                 "poster": f"https://i.ytimg.com/vi/{id}/0.jpg",
                 "title": video_title,
-                "duration": duration
+                "duration": self.convert_duration_time(duration)
                 
             }
     

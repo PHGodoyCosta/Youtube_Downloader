@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from server.yt_dlp_conversor import YoutubeDownloader
+from yt_dlp_conversor import YoutubeDownloader
 from y2meta import Y2Meta
 from uuid import uuid4 as v4
 
@@ -9,9 +9,9 @@ y2meta = Y2Meta()
 
 master_queue = [] #Status = baixando, concluida
 
-@app.route("/")
-def home():
-    return render_template("index.html")
+# @app.route("/")
+# def home():
+#     return render_template("index.html")
 
 @app.route("/informations", methods=['POST'])
 def informations():
