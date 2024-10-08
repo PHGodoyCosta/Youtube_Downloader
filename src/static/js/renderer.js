@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", e => {
 
     directoryButton.addEventListener("click", async () => {
         let path = await window.electronAPI.selectDirectory()
-        directoryText.innerHTML = `<strong>Local:</strong> ${path}`
+        definePath(path)
     })
 
     function createMusicLoadingElement(poster, title, duration="00:00", type="mp3") {
@@ -519,7 +519,7 @@ document.addEventListener("DOMContentLoaded", e => {
         }
     }
 
-    async function converting(url, type=converterOptions.type, typeUnity=converterOptions.typeUnity) {
+    async function converting(url, type=converterOptions.type, typeUnity=converterOptions.typeUnity, downloadPath=converterOptions.downloadPath) {
         try {
             const response = await fetch(`${apiServer}/converter`, {
                 method: "POST",
@@ -528,7 +528,8 @@ document.addEventListener("DOMContentLoaded", e => {
                 },
                 body: JSON.stringify({
                     type: type,
-                    url: url
+                    url: url,
+                    downloadPath: downloadPath
                 })
             })
             
@@ -572,12 +573,20 @@ document.addEventListener("DOMContentLoaded", e => {
         }
     }
 
+    function definePath(path) {
+        directoryText.innerHTML = `<strong>Local:</strong> ${path}`
+        converterOptions.downloadPath = path
+    }
+
     window.addEventListener("load", async(e) => {
         let new_queue = await getQueue()
 
         //console.log(new_queue)
         
         organizingTheQueue(new_queue)
+
+        let path = await window.electronAPI.getDownloadPath()
+        definePath(path)
 
         //let item = await appendQueue("Acabei de inventar", "mp4", "03:00", "baixando")
         //console.log(item)

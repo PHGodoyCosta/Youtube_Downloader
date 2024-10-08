@@ -75,11 +75,16 @@ def queue():
 @app.route("/converter", methods=['POST'])
 def converter():
     data = request.json
+    if data["downloadPath"]:
+        downloader.setting_the_path(data["downloadPath"])
+    
     if data["type"] == "mp3":
         download = downloader.download_sound(data["url"])
         
     elif data["type"] == "mp4":
         download = downloader.download_mp4(data["url"])
+    
+    downloader.setting_the_path(".")
     
     return jsonify(download)
 

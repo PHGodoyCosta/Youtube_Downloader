@@ -36,7 +36,7 @@ app.whenReady().then(() => {
     });
 });
 
-ipcMain.handle('select-directory', async () => {
+ipcMain.handle('select-directory', async() => {
     console.log("OII")
     const result = await dialog.showOpenDialog(mainWindow, {
         properties: ['openDirectory']
@@ -44,6 +44,11 @@ ipcMain.handle('select-directory', async () => {
     console.log(`Diretório: ${result.filePaths[0]}`)
     return result.filePaths[0]; // Retorna o caminho do diretório selecionado
 });
+
+ipcMain.handle('get-download-path', () => {
+    const downloadsPath = app.getPath('downloads'); 
+    return downloadsPath;
+})
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {

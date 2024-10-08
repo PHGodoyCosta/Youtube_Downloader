@@ -11,22 +11,30 @@
 </head>
 <body>
     <div class="d-flex justify-content-center mt-4 mb-3">
-        <!--<img src="{{ url_for('static', filename='images/mg.png') }}" alt="Imagem da Mg Multicoisas" id="mg-multicoisas">-->
+        <img src="../static/images/mg.png" alt="Imagem da Mg Multicoisas" id="mg-multicoisas">
     </div>
     <!--<h1 class="mt-3 mb-4">Conversor da Mg Multicoisas</h1>-->
     <div class="container">
-        <div class="d-flex justify-content-center mb-3" style="gap: 10px">
-            <input type="text" class="main_input" placeholder="Converta sua música">
-            <button id="select-directory">Escolher Diretório</button>
-            <button type="button" class="btn btn-success" id="converter" >Converter</button>
+        <div class="d-flex align-items-center flex-column mb-3" style="gap: 10px">
+            <div>
+                <div>
+                    <input type="text" class="main_input" placeholder="Converta sua música">
+                    <button id="select-directory" class="btn btn-secondary p-2">
+                        <img src="../static/images/folder.png" style="width: 20px;height: 20px;" alt="Icone de uma pasta">
+                    </button>
+                    <button type="button" class="btn btn-success" id="converter" >Converter</button>
+                </div>
+                <div class="text-start">
+                    <p id="directory-text" class="mt-1">Local: C://Agostinho/Downloads</p>
+                </div>
+            </div>
         </div>
-        <p id="directory-text">Local: C://Agostinho/Downloads</p>
         <div class="d-flex justify-content-center align-items-center mt-3" style="gap: 30px">
             <div class="d-flex justify-content-center" style="gap: 5px">
                 <button type="button" class="btn btn-light" id="mp4">mp4</button>
                 <button type="button" class="btn btn-primary" id="mp3">mp3</button>
             </div>
-            <div class="d-flex justify-content-center"></div>
+            <div class="d-flex justify-content-center" style="gap: 5px"></div>
                 <button type="button" class="btn btn-primary" id="musica">Música/Vídeo</button>
                 <button type="button" class="btn btn-light" id="playlist">Playlist</button>
             </div>

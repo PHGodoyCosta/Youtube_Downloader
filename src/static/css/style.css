@@ -66,3 +66,9 @@ h2 {
     display: flex;
     justify-content: center;
 }
+
+#select-directory {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
