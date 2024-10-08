@@ -9,9 +9,9 @@ y2meta = Y2Meta()
 
 master_queue = [] #Status = baixando, concluida
 
-# @app.route("/")
-# def home():
-#     return render_template("index.html")
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 @app.route("/informations", methods=['POST'])
 def informations():

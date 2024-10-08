@@ -1,0 +1,15 @@
+{
+  "name": "youtube-downloader",
+  "version": "1.0.0",
+  "description": "REQUIREMENTS:",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx electron ."
+  },
+  "author": "Pedro Henrique Godoy Costa",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^32.1.2"
+  }
+}
