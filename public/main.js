@@ -43,8 +43,8 @@ app.whenReady().then(() => {
         const isPackaged = electron.app.isPackaged
 
         const pythonScriptPath = isPackaged
-        ? path.join(__dirname, "server", "server.py") // no AppImage ou build
-        : path.join(__dirname, "..", "server", "server.py"); // em dev com `npm start`
+        ? path.join(process.resourcesPath, "app.asar.unpacked", "server", "server.py")
+        : path.join(__dirname, "..", "..", "server", "server.py"); // em dev com `npm start`
 
         pythonServer = spawn("python3", [pythonScriptPath]);
     } else if (platform == "win32") {
@@ -108,31 +108,35 @@ app.on("window-all-closed", () => {
 app.on("quit", () => {
     if (pythonServer) {
         pythonServer.kill();
-        exec(
-            `taskkill /f /im server_mg_conversor.exe`,
-            (err, stdout, stderr) => {
-                if (err) {
-                    console.error(`Erro ao finalizar servidor Flask: ${err}`);
-                    return;
-                }
-                console.log("Servidor Flask encerrado com taskkill.");
-            },
-        );
+        if (platform == "win32") {
+            exec(
+                `taskkill /f /im server_mg_conversor.exe`,
+                (err, stdout, stderr) => {
+                    if (err) {
+                        console.error(`Erro ao finalizar servidor Flask: ${err}`);
+                        return;
+                    }
+                    console.log("Servidor Flask encerrado com taskkill.");
+                },
+            );
+        }
     }
 });
 
 process.on("exit", () => {
     if (pythonServer) {
-        exec(
-            `taskkill /f /im server_mg_conversor.exe`,
-            (err, stdout, stderr) => {
-                if (err) {
-                    console.error(`Erro ao finalizar servidor Flask: ${err}`);
-                    return;
-                }
-                console.log("Servidor Flask encerrado com taskkill.");
-            },
-        );
+        if (platform == "win32") {
+            exec(
+                `taskkill /f /im server_mg_conversor.exe`,
+                (err, stdout, stderr) => {
+                    if (err) {
+                        console.error(`Erro ao finalizar servidor Flask: ${err}`);
+                        return;
+                    }
+                    console.log("Servidor Flask encerrado com taskkill.");
+                },
+            );
+        }
         pythonServer.kill(); // Finaliza o servidor Flask quando o processo Node.js sair
         console.log("Servidor Flask encerrado ao sair do processo.");
     }
