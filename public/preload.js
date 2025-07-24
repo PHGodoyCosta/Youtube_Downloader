@@ -1,13 +1,13 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require("electron");
 
 // Expondo uma API para o renderer process acessar o seletor de diretório
-contextBridge.exposeInMainWorld('electronAPI', {
+contextBridge.exposeInMainWorld("electronAPI", {
     selectDirectory: () => {
-        console.log("Preload: Selecting directoty")
-        return ipcRenderer.invoke('select-directory')
+        console.log("Preload: Selecting directoty");
+        return ipcRenderer.invoke("select-directory");
     },
-    
+
     getDownloadPath: () => {
-        return ipcRenderer.invoke("get-download-path")
-    }
+        return ipcRenderer.invoke("get-download-path");
+    },
 });

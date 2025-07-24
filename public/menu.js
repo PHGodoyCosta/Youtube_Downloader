@@ -1,4 +1,4 @@
-const { app, Menu, MenuItem } = require("electron")
+const { app, Menu, MenuItem } = require("electron");
 
 function createMenu() {
     const menu = Menu.buildFromTemplate([
@@ -7,23 +7,23 @@ function createMenu() {
             submenu: [
                 {
                     label: "Voltar",
-                    role: "undo"
+                    role: "undo",
                 },
                 {
                     label: "Copiar",
-                    role: "copy"
+                    role: "copy",
                 },
                 {
                     label: "Colar",
-                    role: "paste"
+                    role: "paste",
                 },
                 {
-                    label: ""
-                }
-            ]
-        }
-    ])
-    Menu.setApplicationMenu(menu)
+                    label: "",
+                },
+            ],
+        },
+    ]);
+    Menu.setApplicationMenu(menu);
 }
 
-module.exports = createMenu
+module.exports = createMenu;

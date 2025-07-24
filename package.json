@@ -1,60 +1,65 @@
 {
-  "name": "youtube-downloader",
-  "version": "1.0.0",
-  "description": "Programa para conversão e download e músicas e playlists do youtube",
-  "main": "./public/main.js",
-  "homepage": "./",
-  "scripts": {
-    "start": "npx electron .",
-    "build": "electron-builder -c.extraMetadata.main=./public/main.js",
-    "build2": "electron-builder"
-  },
-  "author": "Pedro Henrique Godoy Costa",
-  "license": "MIT",
-  "build": {
-    "appId": "com.mgconversor.electron",
-    "asar": true,
-    "productName": "Conversor Mg Multicoisas",
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ],
-      "extraFiles": [
-        {
-          "from": "server/server_mg_conversor.exe",
-          "to": "server/"
-        }
-      ],
-      "icon": "public/static/images/mg.ico"
+    "name": "youtube-downloader",
+    "version": "1.0.0",
+    "description": "Programa para conversão e download e músicas e playlists do youtube",
+    "main": "./public/main.js",
+    "homepage": "./",
+    "scripts": {
+        "start": "npx electron .",
+        "build": "electron-builder -c.extraMetadata.main=./public/main.js",
+        "build2": "electron-builder"
     },
-    "linux": {
-      "target": ["AppImage"],
-      "icon": "public/static/images/mg.ico"
+    "author": "Pedro Henrique Godoy Costa",
+    "license": "MIT",
+    "build": {
+        "appId": "com.mgconversor.electron",
+        "asar": true,
+        "productName": "Conversor Mg Multicoisas",
+        "win": {
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64",
+                        "ia32"
+                    ]
+                }
+            ],
+            "extraFiles": [
+                {
+                    "from": "server/server_mg_conversor.exe",
+                    "to": "server/"
+                }
+            ],
+            "icon": "public/static/images/mg.ico"
+        },
+        "linux": {
+            "target": [
+                "AppImage"
+            ],
+            "icon": "public/static/images/mg.png"
+        },
+        "mac": {
+            "target": [
+                "dmg"
+            ],
+            "icon": "public/static/images/mg.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "artifactName": "${productName}-Setup-${version}.exe"
+        },
+        "directories": {
+            "buildResources": "."
+        },
+        "files": [
+            "public/**/*",
+            "server/**/*"
+        ]
     },
-    "mac": {
-      "target": ["dmg"],
-      "icon": "public/static/images/mg.ico"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "artifactName": "${productName}-Setup-${version}.exe"
-    },
-    "directories": {
-      "buildResources": "."
-    },
-    "files": [
-      "public/**/*"
-    ]
-  },
-  "devDependencies": {
-    "electron": "^32.1.2",
-    "electron-builder": "^25.1.7"
-  }
+    "devDependencies": {
+        "electron": "^32.1.2",
+        "electron-builder": "^25.1.7"
+    }
 }
