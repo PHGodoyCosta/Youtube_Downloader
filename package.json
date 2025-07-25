@@ -1,6 +1,6 @@
 {
     "name": "youtube-downloader",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Programa para conversão e download de músicas e playlists do youtube",
     "main": "./public/main.js",
     "homepage": "./",
