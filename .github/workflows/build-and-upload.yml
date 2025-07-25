@@ -55,7 +55,7 @@ jobs:
 
         steps:
             - name: Checkout Repositório
-              run: actions/checkout@v3
+              uses: actions/checkout@v3
 
             - name: Instalar Node.JS
               uses: actions/setup-node@v4
@@ -68,13 +68,8 @@ jobs:
             - name: Build App Electron
               run: npm run build
 
-            - name: Pegar versão no package.json
-              id: get_version
-              run: |
-                echo "version=$(node -p "require('./package.json').version")" >> $env:GITHUB_OUTPUT
-
             - name: Upload Installer para o release
               uses: softprops/action-gh-release@v2
               with:
                 files: |
-                    dist/Conversor Mg Multicoisas-${{ steps.get_version.outputs.version }}.AppImage
+                    dist/*.AppImage
