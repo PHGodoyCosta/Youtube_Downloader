@@ -1,0 +1,46 @@
+name: Build and Upload App Windows
+
+on:
+    release:
+        types: [created]
+
+jobs:
+    build:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout repositório
+              uses: actions/checkout@v3
+
+            - name: Instalar Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.10'
+            
+            - name: Instalar Node.JS
+              uses: actions/setup-node@v4
+              with:
+                node-version: '18'
+
+            - name: Instalar dependências Python
+              run: pip install -r requirements.txt
+
+            - name: Instalar dependências Node
+              run: npm install
+
+            - name: Build do servidor (PyInstaller)
+              run: npm run build:server:win
+
+            - name: Build App Electron
+              run: npm run build
+
+            - name: Pegar versão no package.json
+              id: get_version
+              run: |
+                echo "version=$(node -p "require('./package.json').version")" >> $env:GITHUB_OUTPUT
+
+            - name: Upload Installer para o release
+              uses: softprops/action-gh-release@v2
+              with:
+                files: |
+                    dist/Conversor Mg Multicoisas-Setup-${{ steps.get_version.outputs.version }}.exe

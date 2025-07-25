@@ -3,3 +3,4 @@ PyQt5
 youtube_dl
 requests
 flask
+pyinstaller
