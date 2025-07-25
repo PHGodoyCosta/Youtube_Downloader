@@ -24,6 +24,7 @@
             "server/**/*",
             "dist/server_mg_conversor.exe"
         ],
+        "publish": null,
         "productName": "Conversor Mg Multicoisas",
         "win": {
             "target": [
