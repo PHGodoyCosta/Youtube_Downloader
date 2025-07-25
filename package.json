@@ -1,13 +1,14 @@
 {
     "name": "youtube-downloader",
     "version": "1.0.0",
-    "description": "Programa para conversão e download e músicas e playlists do youtube",
+    "description": "Programa para conversão e download de músicas e playlists do youtube",
     "main": "./public/main.js",
     "homepage": "./",
     "scripts": {
         "start": "npx electron .",
-        "build": "electron-builder -c.extraMetadata.main=./public/main.js",
-        "build2": "electron-builder"
+        "build:server:win": "python -m PyInstaller --onefile --add-data=\"server/yt_dlp_conversor.py:.\" --icon=server/mg.ico --exclude-module PySide6 server/server.py",
+        "postbuild:server:win": "cd dist & rename server.exe server_mg_conversor.exe & move server_mg_conversor.exe \"../server/server_mg_conversor.exe\"",
+        "build": "electron-builder"
     },
     "author": "Pedro Henrique Godoy Costa",
     "license": "MIT",
@@ -15,7 +16,13 @@
         "appId": "com.mgconversor.electron",
         "asar": true,
         "asarUnpack": [
-            "server/**/*"
+            "server/**/*",
+            "dist/"
+        ],
+        "files": [
+            "public/**/*",
+            "server/**/*",
+            "dist/server_mg_conversor.exe"
         ],
         "productName": "Conversor Mg Multicoisas",
         "win": {
@@ -30,8 +37,8 @@
             ],
             "extraFiles": [
                 {
-                    "from": "server/server_mg_conversor.exe",
-                    "to": "server/"
+                    "from": "dist/server_mg_conversor.exe",
+                    "to": "server/server_mg_conversor.exe"
                 }
             ],
             "icon": "public/static/images/mg.ico"
@@ -55,11 +62,7 @@
         },
         "directories": {
             "buildResources": "."
-        },
-        "files": [
-            "public/**/*",
-            "server/**/*"
-        ]
+        }
     },
     "devDependencies": {
         "electron": "^32.1.2",

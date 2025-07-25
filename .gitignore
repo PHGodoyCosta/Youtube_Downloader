@@ -4,3 +4,4 @@ server/__pycache__/
 dist/
 server.spec
 build/
+server_mg_conversor.exe

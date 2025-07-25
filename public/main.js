@@ -23,7 +23,6 @@ function createWindow() {
         icon: path.join(__dirname, "static/images/mg.png"),
     });
 
-    // Carregar um arquivo HTML para a interface gráfica
     mainWindow.loadFile(
         path.join(app.getAppPath(), "public", "templates", "index.html"),
     );
@@ -49,7 +48,7 @@ app.whenReady().then(() => {
         pythonServer = spawn("python3", [pythonScriptPath]);
     } else if (platform == "win32") {
         pythonServer = spawn(
-            path.join(app.getAppPath(), "server", "server_mg_conversor.exe"),
+            path.join(app.getAppPath(), "..", "app.asar.unpacked", "server", "server_mg_conversor.exe"),
         );
     }
 
@@ -81,7 +80,7 @@ ipcMain.handle("select-directory", async () => {
         properties: ["openDirectory"],
     });
     console.log(`Diretório: ${result.filePaths[0]}`);
-    return result.filePaths[0]; // Retorna o caminho do diretório selecionado
+    return result.filePaths[0];
 });
 
 ipcMain.handle("get-download-path", () => {
@@ -98,7 +97,7 @@ ipcMain.handle("get-download-path", () => {
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         if (pythonServer) {
-            pythonServer.kill(); // Finaliza o processo Python
+            pythonServer.kill();
             console.log("Servidor Flask encerrado ao fechar todas as janelas.");
         }
         app.quit();
@@ -137,7 +136,7 @@ process.on("exit", () => {
                 },
             );
         }
-        pythonServer.kill(); // Finaliza o servidor Flask quando o processo Node.js sair
+        pythonServer.kill();
         console.log("Servidor Flask encerrado ao sair do processo.");
     }
 });

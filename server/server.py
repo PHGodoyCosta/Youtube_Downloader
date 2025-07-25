@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, Response
 from yt_dlp_conversor import YoutubeDownloader
 #from y2meta import Y2Meta
 from uuid import uuid4 as v4
@@ -11,7 +11,7 @@ master_queue = [] #Status = baixando, concluida
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return Response("Servidor MG Multicoisas funcionando!", mimetype="text/plain")
 
 @app.route("/informations", methods=['POST'])
 def informations():
@@ -104,5 +104,5 @@ def playlist_informations():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000)
+    app.run(port=53333)
     
